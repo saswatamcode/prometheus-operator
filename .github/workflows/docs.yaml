@@ -1,0 +1,20 @@
+name: checks
+on:
+  pull_request:
+  push:
+    branches:
+      - 'increase-timeout-test'
+    tags:
+      - 'v*'
+jobs:
+  check-docs:
+    runs-on: ubuntu-latest
+    name: Check Documentation formatting and links
+    steps:
+    - uses: actions/checkout@v2
+    - name: Import environment variables from file
+      run: cat ".github/env" >> $GITHUB_ENV
+    - uses: actions/setup-go@v2
+      with:
+        go-version: '${{ env.golang-version }}'
+    - run: make check-docs
